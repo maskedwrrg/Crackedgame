@@ -105,6 +105,25 @@ export default async ({ url }) => {
         <script>window.$INSTANCE=globalThis.$INSTANCE=$INSTANCE=window.opener?.$INSTANCE || localStorage.getItem('instance') || 'risenegg.com';</script>
         <script>${core}</script>
         <script>(() => {${script.replace(/\$/g, '$$$$')}\n})();\n</script>
+        <script>(() => {
+            const originalWebSocket = window.WebSocket;
+
+            window.WebSocket = function (url, protocols) {            
+                if (typeof url === "string") {
+                    url = url.replace(location.host, "${payload.instance}");
+                    const baseDomain = location.hostname.split('.').slice(-2).join('.');
+                    url = url.replace(baseDomain, "${payload.instance}");
+                };
+
+                return protocols ? new originalWebSocket(url, protocols) : new originalWebSocket(url);
+            };
+
+            window.WebSocket.prototype = originalWebSocket.prototype;
+            window.WebSocket.CONNECTING = originalWebSocket.CONNECTING;
+            window.WebSocket.OPEN = originalWebSocket.OPEN;
+            window.WebSocket.CLOSING = originalWebSocket.CLOSING;
+            window.WebSocket.CLOSED = originalWebSocket.CLOSED;
+        })();</script>
         ${html}
         ${response}
     `, 'text/html; charset=UTF-8');
