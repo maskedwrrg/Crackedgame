@@ -1,7 +1,7 @@
 import cache from '../util/cache';
 import { redirect, send } from '../util/respond';
 
-export default async ({ path }) => {
+export default async ({ path }: { path: string }) => {
     const mime = Bun.file(path).type.split(';')[0] || 'application/octet-stream';
     const finalMime = mime === 'application/wasm' ? 'application/wasm' : mime + '; charset=UTF-8';
 

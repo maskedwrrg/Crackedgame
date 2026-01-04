@@ -4,7 +4,7 @@
 </div><br>
 
 ## About
-CrackedShell allows you to self-host Shell Shockers with tons of setting - all while playing on official servers!
+CrackedShell allows you to self-host and configure Shell Shockers - all while playing on official servers!
 
 Features:
 - Script Injection
@@ -22,11 +22,6 @@ Here's how to set up your own deployment:
 3. Configure the server in your local config.ts file.
 4. Run the server using bun (`bun .`).
 5. Play CrackedShell at `localhost:6900`!
-
-### Why Bun?
-In short, Node is slow. There are a lot of people who would argue for hours over how optimized Bun is. In the end, Bun provides many out-of-the-box utilities used in CrackedShell. Using standard Node.JS, I would have to have used several dependencies in order to accomplish the things Bun can do. Bun natively supports a stable http server with `Bun.serve`, meaning that I don't have to struggle with Fastify or Express. Additionally, Bun's server allows for static routes, which would likely be another dependency using Node. It also supports native mime type lookup for any extension, which saves yet another dependency.
-
-Personally, I find Bun much more flexible and clean. Perhaps you will too.
 
 > [!NOTE]
 > You don't need to run `bun i` or install any dependencies, as Bun provides everything out of the box.<br>
@@ -90,13 +85,12 @@ Since v2, GM.* APIs are no longer built in. Define them yourself.
 > [!NOTE]
 > Patch finds & replacements are in [patches.ts](./src/game/patches.ts).
 
-To fix WebSocket issues, WebSockets are replaced with a $WEBSOCKET variable.<br>
-A built-in adblocker is also added. This cannot be disabled. If this conflicts, make it not.
+To fix WebSocket issues, the WebSocket object is patched.
 
 These patches obviously modify the original shellshock.js as fetched by the game. If you want an original copy of the Shell Shockers JS script pre-patches, you can fetch `/js/shellshock.og.js`.
 
 ### Detecting CrackedShell
-You can detect CrackedShell clients versus a normal client by checking the existence of a global `$WEBSOCKET` variable. Renaming, reusing, or otherwise deleting this variable will result in WebSocket opening breaking.
+You can detect CrackedShell clients versus a normal client by checking the existence of a global `$INSTANCE` variable. Renaming, reusing, or otherwise deleting this variable will result in CrackedShell not functioning properly.
 
 ### Caching
 The server cache stores all of the files of Shell Shockers locally after fetch. This cache can be cleared by stopping and starting CrackedShell. I recommend you have a program do this every couple hours anyways, as restarting is harmless and doesn't end any WebSocket connections since these don't go through CrackedShell.

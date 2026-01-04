@@ -1,4 +1,3 @@
-import Bun from 'bun';
 import path from 'node:path';
 
 import game from './game/rewrite';
@@ -9,14 +8,13 @@ import config from '../config';
 const build = async (file: string) => {
     let data = Bun.file(path.join(import.meta.dirname, file));
 
-    return new Response(await data.bytes(), {
-        headers: { 'Content-Type': data.type }
-    })
+    return new Response(await data.bytes(), { headers: { 'Content-Type': data.type } })
 }
 
 Bun.serve({
     port: config.port,
 
+    // @ts-expect-error oh?
     static: {
         '/$': await build('./console/index.html'),
         '/$/': await build('./console/index.html'),

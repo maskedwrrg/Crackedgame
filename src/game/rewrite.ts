@@ -1,13 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 import { redirect, send } from '../util/respond';
 
 import config from '../../config';
 
-const core = fs.readFileSync(path.join(import.meta.dirname, '..', 'console', 'core.js'), 'utf-8');
-
-export default async ({ url }) => {
+export default async ({ url }: { url: URL }) => {
     const getter = await fetch('https://shellshock.io/');
     if (getter.status !== 200) return redirect('/$');
 
@@ -22,7 +17,7 @@ export default async ({ url }) => {
     let payload: Payload;
 
     try {
-        payload = JSON.parse(url.searchParams.get('payload'));
+        payload = JSON.parse(url.searchParams.get('payload') || '{}');
 
         if (typeof payload.js === 'string') payload.js = [...JSON.parse(payload.js)];
         else payload.js = [];
@@ -53,7 +48,7 @@ export default async ({ url }) => {
 
         let regex = /\/\/\s(@\w+)\s+([^\n]+)/g;
         let lastIndex = 0;
-        let metadata = {};
+        let metadata: Record<string, string[]> = {};
         let match: RegExpExecArray | null;
 
         while ((match = regex.exec(text)) !== null) {
@@ -101,9 +96,7 @@ export default async ({ url }) => {
     }));
 
     return send(`
-        <script>window.$WEBSOCKET=globalThis.$WEBSOCKET=$WEBSOCKET="${payload.instance}";</script>
         <script>window.$INSTANCE=globalThis.$INSTANCE=$INSTANCE=window.opener?.$INSTANCE || localStorage.getItem('instance') || 'risenegg.com';</script>
-        <script>${core}</script>
         <script>(() => {${script.replace(/\$/g, '$$$$')}\n})();\n</script>
         <script>(() => {
             const originalWebSocket = window.WebSocket;

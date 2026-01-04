@@ -100,9 +100,8 @@ let commands = {
         term.writeln([
             '',
             '    CrackedShell is made possible by the work of one person.',
-            '    If you like the project, please consider power poles.',
-            '      Source: \x1b[34;1mhttps://github.com/VillainsRule/CrackedShell\x1b[0m',
-            '      Discord: \x1b[34;1mhttps://discord.getstate.farm\x1b[0m',
+            '    If you like the project, please star the repository:',
+            '      Repository: \x1b[34;1mhttps://github.com/VillainsRule/CrackedShell\x1b[0m',
             '      Bug Report: \x1b[34;1mhttps://github.com/VillainsRule/CrackedShell/issues/new\x1b[0m',
             ''
         ].join('\n\r'));
