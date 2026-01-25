@@ -12,7 +12,7 @@ Features:
 - Client + Server Customization
 - Fully Open Source!
 
-You can try a demo @ [shell.onlypuppy7.online](https://shell.onlypuppy7.online).<br>
+You can try a demo @ [shell.onlypuppy7.online](https://shell.onlypuppy7.org).<br>
 
 ## Setting Up CrackedShell
 Here's how to set up your own deployment:
