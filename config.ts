@@ -1,6 +1,6 @@
 export default {
     // The port to run CrackedShell on
-    port: 6900,
+    port: 8000,
 
     // This specifies user-input script hosts that the server is allowed to fetch.
     // This helps prevent your server from being "IP logged" with malicious hosts.
